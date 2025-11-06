@@ -131,14 +131,12 @@ def plot_all_cities_streamlit(dealers_df):
                 G = ox.graph_from_point((center_lat, center_lon), dist=radius, network_type='drive')
 
                 if not G.nodes:
-                    st.warning(f"⚠️ Skipping Truck {truck_id} in {city} (No graph data found)")
                     continue
                 if not nx.is_strongly_connected(G):
                     largest_scc_nodes = max(nx.strongly_connected_components(G), key=len)
                     G = G.subgraph(largest_scc_nodes).copy()
 
             except Exception as e:
-                st.warning(f"⚠️ Skipping Truck {truck_id} in {city} (Graph Error): {e}")
                 continue
 
             # Map coordinates to nearest nodes
@@ -320,4 +318,5 @@ if uploaded_file:
                 st.dataframe(results_df.head())
 
 else:
+
     st.info("Please upload an Excel file to begin.")
